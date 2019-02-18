@@ -1,0 +1,73 @@
+<?php
+/**
+ * MindMagnet
+ *
+ * 
+ *
+ * @category    MindMagnet
+ * @package     MindMagnet_BTPay
+ * @author      Claudiu Marginean <claudiu.marginean@mindmagnetsoftware.com>
+ * @copyright   Copyright (c) 2013 Mind Magnet Software (http://www.mindmagnetsoftware.com)
+ * 
+ */
+?>
+<?php if ($this->canDisplayBlock()): ?>
+<div class="entry-edit">
+    <div class="entry-edit-head"><h4 class="icon-head head-btpay-transactions"><?php echo Mage::helper('btpay')->__('BT Pay - Tranzacții') ?></h4></div>
+    <div class="grid">
+        <table cellspacing="0" class="data">
+            <thead>
+                <tr class="headings">
+                    <th><?php echo Mage::helper('btpay')->__('Data') ?></th>
+                    <th><?php echo Mage::helper('btpay')->__('Tip Tranzacție') ?></th>
+                    <th><?php echo Mage::helper('btpay')->__('Stare') ?></th>
+                    <th><?php echo Mage::helper('btpay')->__('Suma Procesată') ?></th>
+                    <th><?php echo Mage::helper('btpay')->__('Order') ?></th>
+                    <th><?php echo Mage::helper('btpay')->__('RRN') ?></th>
+                    <th><?php echo Mage::helper('btpay')->__('IntRef') ?></th>
+                    <th><?php echo Mage::helper('btpay')->__('Mesaj de la bancă') ?></th>
+                </tr>
+            </thead>
+            <?php if ($this->getChildHtml('btpay_api_action_form')) :?>
+            <tfoot>
+                <tr>
+                    <td colspan="8" >
+                        <?php echo $this->getChildHtml('btpay_api_action_form') ?>
+                    </td>
+                </tr>
+            </tfoot>
+            <?php endif; ?>
+            <?php if (count($this->getTransactions())): ?>
+            <tbody>
+                <?php $_i = 0; ?>
+                <?php foreach ($this->getTransactions() as $_websiteId => $_item): ?>
+                <tr<?php echo ($_i++ % 2 ? ' class="even"' : '') ?>>
+                    <td><?php echo $this->formatDate($_item->getCreatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, true) ?></td>
+                    <td><?php echo $_item->getTransactionTypeLable() ?></td>
+                    <td>
+                         <?php if ($_item->getTransactionStatus()): ?>
+                            <span class="grid-severity-notice"><span><?php echo Mage::helper('btpay')->__('Yes') ?></span></span>
+                         <?php else: ?>
+                            <span class="grid-severity-critical"><span><?php echo Mage::helper('btpay')->__('No') ?></span></span>
+                         <?php endif; ?>
+                    <td><?php echo $_item->getTransactionCurrency()->formatTxt($_item->getAmountProcessed()) ?></td>
+                    <td><?php echo $_item->getOrder() ?></td>
+                    <td><?php echo $_item->getRrn() ?></td>
+                    <td><?php echo $_item->getIntRef() ?></td>
+                    <td><?php echo $_item->getResponceMessage() ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+            <?php else: ?>
+            <tbody>
+                <tr class="even">
+                    <td colspan="8" class="empty-text a-center"><?php echo Mage::helper('btpay')->__('No Transactions found.') ?></td>
+                </tr>
+            </tbody>
+            <?php endif; ?>
+        </table>
+    </div>
+</div>
+<div class="clear"></div>
+<br/>
+<?php endif; ?>

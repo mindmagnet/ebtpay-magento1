@@ -1,0 +1,8 @@
+src/app/code/community/MindMagnet/BTPay/	app/code/community/MindMagnet/BTPay/
+src/app/design/adminhtml/default/default/layout/btpay.xml	app/design/adminhtml/default/default/layout/btpay.xml
+src/app/design/adminhtml/default/default/template/btpay/	app/design/adminhtml/default/default/template/btpay/
+src/app/design/frontend/base/default/template/btpay/	app/design/frontend/base/default/template/btpay/
+src/app/etc/modules/MindMagnet_BTPay.xml	app/etc/modules/MindMagnet_BTPay.xml
+src/app/locale/en_US/MindMagnet_BTPay.csv	app/locale/en_US/MindMagnet_BTPay.csv
+src/app/locale/ro_RO/MindMagnet_BTPay.csv	app/locale/ro_RO/MindMagnet_BTPay.csv
+

@@ -1,0 +1,11 @@
+<config>
+    <modules>
+        <MindMagnet_BTPay>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Payment />
+            </depends>
+        </MindMagnet_BTPay>
+    </modules>
+</config>

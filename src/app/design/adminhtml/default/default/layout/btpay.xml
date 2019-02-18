@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MindMagnet
+ *
+ * 
+ *
+ * @category    MindMagnet
+ * @package     MindMagnet_BTPay
+ * @author      Claudiu Marginean <claudiu.marginean@mindmagnetsoftware.com>
+ * @copyright   Copyright (c) 2013 Mind Magnet Software (http://www.mindmagnetsoftware.com)
+ * 
+ */
+-->
+
+<layout>
+    <adminhtml_sales_order_view>
+        <block type="btpay/adminhtml_sales_order_view_transactions" name="btpay_transactions" template="btpay/sales/order/view/transactions.phtml">
+            <block type="btpay/adminhtml_sales_order_view_form" name="btpay_api_action_form" template="btpay/sales/order/view/api_action_form.phtml" />
+        </block>
+    </adminhtml_sales_order_view>
+</layout>
+

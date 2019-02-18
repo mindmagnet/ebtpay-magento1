@@ -1,0 +1,1 @@
+Go to RomCard - Sistem de testare comercianti 3DSecure - Login Page = "https://www.activare3dsecure.ro/teste3d/login.php"

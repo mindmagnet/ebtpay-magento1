@@ -1,0 +1,40 @@
+<?php
+/**
+ * MindMagnet
+ *
+ * 
+ *
+ * @category    MindMagnet
+ * @package     MindMagnet_BTPay
+ * @author      Claudiu Marginean <claudiu.marginean@mindmagnetsoftware.com>
+ * @copyright   Copyright (c) 2013 Mind Magnet Software (http://www.mindmagnetsoftware.com)
+ * 
+ */
+?>
+<?php if ($this->getAvailableInstallments() || $this->getInstructions()): ?>
+<ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+    <?php if ($this->getAvailableInstallments()): ?>
+    <li>
+        <label for="<?php echo $this->getMethodCode() ?>_rambursare"><?php echo Mage::helper('btpay')->__('Installments') ?>:</label>
+        <div class="input-box">
+            <select id="<?php echo $this->getMethodCode() ?>_rambursare" name="payment[rambursare]" class="required-entry">
+                <?php $_rambursare = $this->getInfoData('rambursare') ?>
+                
+                <?php if(false):?><option value="1"><?php echo $this->__('Full payment')?></option><?php endif; ?>
+                
+                <?php foreach ($this->getAvailableInstallments() as $installment): ?>
+                    <option value="<?php echo $installment; ?>"<?php if($installment == $_rambursare): ?> selected="selected"<?php endif ?>><?php echo $this->__('%s installments without interest', $installment) ?></option>
+                <?php endforeach ?>
+            </select>
+        </div>
+    </li>
+    <?php endif; ?>
+    <?php if ($this->getInstructions()): ?>
+    <li>
+        <div class="<?php echo $this->getMethodCode() ?>-instructions-content" style="background-color: white;  border-color: #E4E4E4; padding: 5px; border: 1px solid #BBB6A5; overflow: auto;">
+            <?php echo nl2br($this->getInstructions()) ?>
+        </div>
+    </li>
+    <?php endif; ?>
+</ul>
+<?php endif; ?>

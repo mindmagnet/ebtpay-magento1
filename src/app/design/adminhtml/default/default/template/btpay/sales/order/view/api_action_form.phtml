@@ -1,0 +1,127 @@
+<?php
+/**
+ * MindMagnet
+ *
+ * 
+ *
+ * @category    MindMagnet
+ * @package     MindMagnet_BTPay
+ * @author      Claudiu Marginean <claudiu.marginean@mindmagnetsoftware.com>
+ * @copyright   Copyright (c) 2013 Mind Magnet Software (http://www.mindmagnetsoftware.com)
+ * 
+ */
+?>
+<div class="btpay-api-call-form giftcard-send-form giftcard-form" style="width: 600px; margin: 10px auto;">
+    <form action="<?php echo $this->getUrl('adminhtml/btpay/call_api'); ?>" id="btpay-api-form" method="post" class="a-left">
+    <?php $_next_action = ($this->getNextAction()?:'capture')?>
+    <?php echo $this->getBlockHtml('formkey')?>
+    <input type="hidden" value="<?php echo $this->getFormData()->getData('order_increment_id'); ?>" name="btpay[order_id]" id="btpay_order_id" />
+    <ul class="form-list">
+        <li class="fields">
+            <div class="field">
+                <label for="btpay_api_call_action"><?php echo Mage::helper('btpay')->__('API Call Action'); ?></label>
+                <div class="input-box">
+                    <select id="btpay_api_call_action" name="btpay[action]" class="select" style="width: 156px; padding: 2px;">
+                        <!--<option value="preauthorize"<?php echo ($_next_action == 'preauthorize' ? ' selected="selected"': '') ?>><?php echo Mage::helper('btpay')->__('Autorizare plată'); ?></option>-->
+                        <option value="capture"<?php echo ($_next_action == 'capture' ? ' selected="selected"': '') ?>><?php echo Mage::helper('btpay')->__('Încasare plată'); ?></option>
+                        <option value="void"<?php echo ($_next_action == 'void' ? ' selected="selected"': '') ?>><?php echo Mage::helper('btpay')->__('Anulare plată'); ?></option>
+                    </select>
+                </div>
+            </div>
+        </li>
+        <li class="fields">
+            <div class="field">
+                <label for="btpay_amount"><?php echo Mage::helper('btpay')->__('Suma de plată'); ?></label>
+                <div class="input-box">
+                    <input type="text" size="20" name="btpay[amount]" value="<?php echo $this->getFormData()->getData('amount_processed'); ?>" class="input-text validate-greater-than-zero required-entry" id="btpay_amount" style="width: 150px;" />
+                    <p class="note"><?php echo Mage::helper('btpay')->__('Suma totala de plata. Trebuie sa contina 2 zecimale separate prin punct (Ex: 10.23 )'); ?></p>
+                </div>
+            </div>
+        </li>
+        <li class="fields btpay-moreinfo" style="display: none;">
+            <div class="field">
+                <label for="btpay_currency"><?php echo Mage::helper('btpay')->__('Moneda de plată'); ?></label>
+                <div class="input-box">
+                    <input type="text" name="btpay[currency]" value="<?php echo $this->getFormData()->getData('currency_code'); ?>" class="input-text required-entry" id="btpay_currency" style="width: 150px;" />
+                    <p class="note"><?php echo Mage::helper('btpay')->__('Moneda in care se face tranzactia. In functie de banca poate fi: RON, USD, EUR'); ?></p>
+                </div>
+            </div>
+        </li>
+        <li class="fields btpay-moreinfo" style="display: none;">
+            <div class="field">
+                <label for="btpay_order"><?php echo Mage::helper('btpay')->__('Order'); ?></label>
+                <div class="input-box">
+                    <input type="text" name="btpay[order]" value="<?php echo $this->getFormData()->getData('order'); ?>" class="input-text required-entry" id="btpay_order" style="width: 150px;" />
+                    <p class="note"><?php echo Mage::helper('btpay')->__('Nu modificați acest câmp. Numarul comenzii generat de catre comerciant.'); ?></p>
+                </div>
+            </div>
+        </li>
+        <li class="fields btpay-moreinfo" style="display: none;">
+            <div class="field">
+                <label for="btpay_rrn"><?php echo Mage::helper('btpay')->__('RRN'); ?></label>
+                <div class="input-box">
+                    <input type="text" name="btpay[rrn]" value="<?php echo $this->getFormData()->getData('rrn'); ?>" class="input-text required-entry" id="btpay_rrn" style="width: 150px;" />
+                    <p class="note"><?php echo Mage::helper('btpay')->__('Nu modificați acest câmp. Valoare de referinta in contactul cu RomCard.'); ?></p>
+                </div>
+            </div>
+        </li>
+        <li class="fields btpay-moreinfo" style="display: none;">
+            <div class="field">
+                <label for="btpay_int_ref"><?php echo Mage::helper('btpay')->__('IntRef'); ?></label>
+                <div class="input-box">
+                    <input type="text" name="btpay[int_ref]" value="<?php echo $this->getFormData()->getData('int_ref'); ?>" class="input-text required-entry" id="btpay_int_ref" style="width: 150px;" />
+                    <p class="note"><?php echo Mage::helper('btpay')->__('Nu modificați acest câmp. Valoare de referinta interna RomCard.'); ?></p>
+                </div>
+            </div>
+        </li>
+        <li class="fields btpay-moreinfo" style="display: none;">
+            <p class="note"><?php echo Mage::helper('btpay')->__('"Order", "RRN", "IntRef" sunt parametri folosiți pentru a efectua cereri către BT Pay Gateway.'); ?></p>
+        </li>
+    </ul>
+    <button id="btpay-transactions-btn-api-call" class="scalable go" type="button" onclick="btpay_api.callAction();" title="<?php echo Mage::helper('btpay')->__('Trimite către BT Pay'); ?>">
+        <span><?php echo Mage::helper('btpay')->__('Trimite către BT Pay'); ?></span>
+    </button>
+    <button id="btpay-transactions-btn-moreinfo" class="scalable back" type="button" onclick="$$('.btpay-moreinfo').invoke('toggle');" title="<?php echo Mage::helper('btpay')->__('Afișează Informații suplimentare'); ?>">
+        <span><?php echo Mage::helper('btpay')->__('Afișează Informații suplimentare'); ?></span>
+    </button>
+    </form>
+<script type="text/javascript">
+//< ![CDATA[
+
+var btpay_api = {
+    callAction: function() {
+        var form = $('btpay-api-form');
+
+        if(!form) {
+            return;
+        }
+        if(form && !form.validator) {
+            form.validator = new Validation('btpay-api-form');
+        }
+
+        if(!form.validator.validate()) {
+            $$('.btpay-moreinfo').invoke('show');
+            return;
+        }
+        
+        if( confirm(<?php echo Mage::helper('core')->jsonEncode(Mage::helper('btpay')->__('Sunteți sigur că doriți să efectuați această acțiune?')) ?>) ) {
+            if($('loading-mask')){
+                $('loading-mask').show();
+                toggleSelectsUnderBlock($('loading-mask'), false);
+            }
+            
+            if($('btpay-transactions-btn-api-call')){
+                $('btpay-transactions-btn-api-call').disabled = true;
+                $('btpay-transactions-btn-api-call').addClassName('disabled'); 
+            }
+        
+            form.submit();
+        } 
+        return;
+        //form.action;
+        //Form.serialize(form);
+    }
+};
+//]]>
+</script>
+</div>
